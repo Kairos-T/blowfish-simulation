@@ -2,15 +2,11 @@ import os
 from Crypto.Cipher import Blowfish
 from art import *
 
-KEY_SIZE = 16  # 128 bits
-
+# KEY_SIZE = 16  # 128 bits
 
 def pad(data):
     """
     Pad the input data to make its length a multiple of 8 bytes.
-
-    This function calculates the number of bytes needed to make the length of the data a multiple of 8.
-    It then creates a new bytes object of that length, filled with the padding length value, and appends it to the end of the data.
 
     Parameters:
     data (bytes): The input data to be padded.
@@ -26,9 +22,6 @@ def unpad(data):
     """
     Remove the padding from the input data.
 
-    This function reads the last byte of the data to determine the padding length.
-    It then returns a new bytes object with the padding removed from the end.
-
     Parameters:
     data (bytes): The input data to be unpadded.
 
@@ -40,26 +33,8 @@ def unpad(data):
 
 
 def encrypt(plaintext, key, iv=None):
-    """
-    Encrypt the plaintext using Blowfish in CBC mode.
-
-    This function creates a new Blowfish cipher object with the given key and initialization vector (IV).
-    It then pads the plaintext to a multiple of 8 bytes, and encrypts it using the cipher.
-    The encrypted ciphertext is then returned.
-
-    Parameters:
-    plaintext (bytes): The input data to be encrypted.
-    key (bytes): The secret key to use in the symmetric cipher. It must be 16, 24, or 32 bytes long.
-    iv (bytes, optional): The initialization vector to use for the cipher. If None, a random IV will be created.
-
-    Returns:
-    bytes: The encrypted ciphertext.
-
-    Raises:
-    ValueError: If the key size is not valid.
-    """
-    if len(key) != KEY_SIZE:
-        raise ValueError("Key size must be {} bytes".format(KEY_SIZE))
+    if len(key) % 8 != 0:
+        raise ValueError("Key size must be a multiple of 8 bytes")
 
     cipher = Blowfish.new(key, Blowfish.MODE_CBC, iv=iv)
     plaintext_padded = pad(plaintext)
@@ -68,31 +43,35 @@ def encrypt(plaintext, key, iv=None):
 
 
 def decrypt(ciphertext, key, iv=None):
-    """
-    Decrypt the ciphertext using Blowfish in CBC mode.
-
-    This function creates a new Blowfish cipher object with the given key and initialization vector (IV).
-    It then decrypts the ciphertext using the cipher, and unpads the resulting plaintext.
-    The decrypted plaintext is then returned.
-
-    Parameters:
-    ciphertext (bytes): The input data to be decrypted.
-    key (bytes): The secret key to use in the symmetric cipher. It must be 16, 24, or 32 bytes long.
-    iv (bytes, optional): The initialization vector to use for the cipher. If None, a random IV will be created.
-
-    Returns:
-    bytes: The decrypted plaintext.
-
-    Raises:
-    ValueError: If the key size is not valid.
-    """
-    if len(key) != KEY_SIZE:
-        raise ValueError("Key size must be {} bytes".format(KEY_SIZE))
+    if len(key) % 8 != 0:
+        raise ValueError("Key size must be a multiple of 8 bytes")
 
     cipher = Blowfish.new(key, Blowfish.MODE_CBC, iv=iv)
     plaintext_padded = cipher.decrypt(ciphertext)
     plaintext = unpad(plaintext_padded)
     return plaintext
+
+def get_key_size():
+    while True:
+        try:
+            print("Choose key size:")
+            print("[1] 128 bits")
+            print("[2] 192 bits")
+            print("[3] 256 bits")
+            choice = int(
+                input("Enter the number corresponding to your choice: "))
+
+            if choice == 1:
+                return 16  # 128 bits
+            elif choice == 2:
+                return 24  # 192 bits
+            elif choice == 3:
+                return 32  # 256 bits
+            else:
+                print("Invalid choice. Please enter a valid option.")
+
+        except ValueError:
+            print("Invalid input. Please enter a valid integer.\n")
 
 
 def main():
@@ -131,7 +110,7 @@ __J  _   _.     >-'  )._.   |-'
       \\ (  `\\
        `.\n'''
 
-    print("-" * 50 )
+    print("-" * 50)
     print(blowfish)
     print(text2art("Blowfish", font="small"))
     print("-" * 50 + "\n")
@@ -140,12 +119,13 @@ __J  _   _.     >-'  )._.   |-'
         "This script simulates the encryption and decryption of a \nplaintext using Blowfish in the Cipher Block Chaining mode.\n"
         "It pads and unpads the plaintext to a multiple of 8 bytes,\nand uses a random initialization vector (IV) for each \nencryption/decryption cycle."
         "The plaintext, ciphertext, \nand decrypted plaintext are printed for each cycle.\n"
-        )
+    )
     print("-" * 50 + "\n")
 
     while True:
         try:
-            key = os.urandom(KEY_SIZE)
+            key_size = get_key_size()  # Use the user-selected key size
+            key = os.urandom(key_size)
             iv = os.urandom(8)
 
             plaintext_input = input("Enter the plaintext: ")
@@ -158,9 +138,13 @@ __J  _   _.     >-'  )._.   |-'
             ciphertext = encrypt(plaintext, key, iv)
             decrypted_text = decrypt(ciphertext, key, iv)
 
-            print("\nPlaintext:", str(plaintext)[2:-1])
-            print("Ciphertext:", str(ciphertext)[2:-1])
-            print("Decrypted Text:", decrypted_text.decode('utf-8'))
+            # print("\nPlaintext:", str(plaintext)[2:-1])
+            # print("Ciphertext:", str(ciphertext)[2:-1])
+            # print("Decrypted Text:", decrypted_text.decode('utf-8'))
+            
+            print("\nPlaintext:", repr(plaintext)[2:-1])
+            print("Ciphertext:", repr(ciphertext)[2:-1])
+            print("Decrypted Text:", repr(decrypted_text)[2:-1])
             print("\nEncryption and decryption successful.")
 
             break
