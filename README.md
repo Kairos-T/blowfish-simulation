@@ -99,7 +99,6 @@ Ciphertext: \xa7-\xba\xcc'\x85w\xd1\x8c\x9f\x1cTdA\xd8\x9d
 Decrypted Text: CTG Assignment
 
 Encryption and decryption successful.
-
 ```
 
 ```
