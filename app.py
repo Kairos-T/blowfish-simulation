@@ -1,5 +1,6 @@
 import os
 from Crypto.Cipher import Blowfish
+from art import *
 
 KEY_SIZE = 16  # 128 bits
 
@@ -107,6 +108,41 @@ def main():
     ValueError: If the key size is not valid.
     Exception: If an unexpected error occurs during encryption or decryption.
     """
+    blowfish = '''
+              |    .
+          .   |L  /|   .          _
+      _ . |\ _| \--+._/| .       (_)
+     / ||\| Y J  )   / |/| ./
+    J  |)'( |        ` F`.'/        _
+  -<|  F         __     .-<        (_)
+    | /       .-'. `.  /-. L___
+    J \      <    \  | | O\|.-'  _
+  _J \  .-    \/ O | | \  |F    (_)
+ '-F  -<_.     \   .-'  `-' L__
+__J  _   _.     >-'  )._.   |-'
+`-|.'   /_.           \_|   F
+  /.-   .                _.<
+ /'    /.'             .'  `\\
+  /L  /'   |/      _.-'-\\
+ /'J       ___.---'\\|
+   |\\  .--' V  | `. `
+   |\\/`. `-.     `._)
+      / .-.\\
+      \\ (  `\\
+       `.\n'''
+
+    print("-" * 50 )
+    print(blowfish)
+    print(text2art("Blowfish", font="small"))
+    print("-" * 50 + "\n")
+    print("CTG Assignment CSF02 2023\n")
+    print(
+        "This script simulates the encryption and decryption of a \nplaintext using Blowfish in the Cipher Block Chaining mode.\n"
+        "It pads and unpads the plaintext to a multiple of 8 bytes,\nand uses a random initialization vector (IV) for each \nencryption/decryption cycle."
+        "The plaintext, ciphertext, \nand decrypted plaintext are printed for each cycle.\n"
+        )
+    print("-" * 50 + "\n")
+
     while True:
         try:
             key = os.urandom(KEY_SIZE)
@@ -122,10 +158,10 @@ def main():
             ciphertext = encrypt(plaintext, key, iv)
             decrypted_text = decrypt(ciphertext, key, iv)
 
-            print("Plaintext:", str(plaintext)[2:-1])
+            print("\nPlaintext:", str(plaintext)[2:-1])
             print("Ciphertext:", str(ciphertext)[2:-1])
             print("Decrypted Text:", decrypted_text.decode('utf-8'))
-            print("Encryption and decryption successful.")
+            print("\nEncryption and decryption successful.")
 
             break
 
