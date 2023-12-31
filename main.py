@@ -117,7 +117,7 @@ __J  _   _.     >-'  )._.   |-'
     print("CTG Assignment CSF02 2023\n")
     print(
         "This script simulates the encryption and decryption of a \nplaintext using Blowfish in the Cipher Block Chaining mode.\n"
-        "It pads and unpads the plaintext to a multiple of 8 bytes,\nand uses a random initialization vector (IV) for each \nencryption/decryption cycle."
+        "It pads and unpads the plaintext to a multiple of 8 bytes,\nand uses a random initialization vector (IV) for each \nencryption/decryption cycle. "
         "The plaintext, ciphertext, \nand decrypted plaintext are printed for each cycle.\n"
     )
     print("-" * 50 + "\n")
