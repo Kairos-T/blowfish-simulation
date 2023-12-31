@@ -1,0 +1,2 @@
+art==6.1
+pycryptodome==3.19.1
