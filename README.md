@@ -3,7 +3,7 @@ This repository contains a Python script that simulates the Blowfish algorithm i
 
 The Blowfish algorithm is a type of symmetric-key block cipher. It operates on variable-length blocks (usually 32 to 448 bits) and is known for its simplicity and speed.
 
-This script allows users to choose a key size and plaintext, and simulate the encryption and decryption of the plaintext using Blowfish in the CBC mode, allowing users to see the relationship between the key size and the ciphertext size, and the seamingly randomness of the ciphertext.
+This script allows users to choose a key size and plaintext, and simulate the encryption and decryption of the plaintext using Blowfish in the CBC mode, allowing users to see the relationship between the key size and the ciphertext size, and the seemingly randomness of the ciphertext.
 
 ## Getting Started
 
